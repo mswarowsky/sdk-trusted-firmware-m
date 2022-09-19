@@ -29,7 +29,7 @@
 #define S_PSP_STACK_SIZE        (0x00000800)
 
 #define NS_HEAP_SIZE            (0x00001000)
-#define NS_MSP_STACK_SIZE       (0x000000A0)
+#define NS_MSP_STACK_SIZE       (0x00000800)
 #define NS_PSP_STACK_SIZE       (0x00000140)
 
 /* Size of nRF SPU (Nordic IDAU) regions */

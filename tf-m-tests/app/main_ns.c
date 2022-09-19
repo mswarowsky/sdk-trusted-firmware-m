@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  *
  */
+#include "region.h"
+#include "region_defs.h"
 
 #include "tfm_api.h"
 #include "cmsis_os2.h"
@@ -115,13 +117,16 @@ static void tfm_ns_multi_core_boot(void)
 extern uint32_t tfm_ns_interface_init(void);
 #endif
 
-/**
- * \brief Platform peripherals and devices initialization.
- *        Can be overridden for platform specific initialization.
- *
- * \return  ARM_DRIVER_OK if the initialization succeeds
- */
-__WEAK int32_t tfm_ns_platform_init(void)
+REGION_DECLARE(Image$$, ARM_LIB_STACK, $$ZI$$Base);
+REGION_DECLARE(Image$$, ARM_LIB_STACK, $$ZI$$Limit);
+    /**
+     * \brief Platform peripherals and devices initialization.
+     *        Can be overridden for platform specific initialization.
+     *
+     * \return  ARM_DRIVER_OK if the initialization succeeds
+     */
+    __WEAK int32_t
+    tfm_ns_platform_init(void)
 {
     stdio_init();
 
@@ -154,7 +159,18 @@ int main(void)
         while(1);
     }
 
+    LOG_MSG("region lim is 0x%x \r\n", (uint32_t)&REGION_NAME(Image$$, ARM_LIB_STACK, $$ZI$$Limit));
+    LOG_MSG("NS_MSP_STACK_SIZE:0x%x\r\n", NS_MSP_STACK_SIZE);
+    LOG_MSG("setting msplim to 0x%x - ", (uint32_t)&REGION_NAME(Image$$, ARM_LIB_STACK, $$ZI$$Base));
+
+    /* set Main Stack Pointer limit */
+    __set_MSPLIM((uint32_t)&REGION_NAME(Image$$, ARM_LIB_STACK, $$ZI$$Base));
+    
+    LOG_MSG("Set\r\n");
+
     (void) osKernelInitialize();
+
+    LOG_MSG("More\r\n");
 
 #ifdef TFM_MULTI_CORE_TOPOLOGY
     tfm_ns_multi_core_boot();

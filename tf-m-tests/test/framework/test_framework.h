@@ -124,7 +124,8 @@ void show_tests(const struct test_suite_t *ts);
 void set_test_failed(const char *info_msg, const char *filename, uint32_t line,
                      struct test_result_t *ret);
 
-#define TEST_FAIL(info_msg)  set_test_failed(info_msg, __FILE__, __LINE__, ret)
+// #define TEST_FAIL(info_msg)  set_test_failed(info_msg,"000000000000000000000000000000000000000"__FILE__, __LINE__, ret)
+#define TEST_FAIL(info_msg) set_test_failed(info_msg, "00000000000000000000000"__FILE__, __LINE__, ret)
 
 #define TEST_LOG(...) tfm_log_printf(__VA_ARGS__)
 
