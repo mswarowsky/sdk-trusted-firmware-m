@@ -16,3 +16,5 @@ set(NRF_NS_SECONDARY                    ${BL2}     CACHE BOOL      "Enable non-s
 # Platform-specific configurations
 # Use nrf9160 until test target name in PSA arch test repository has been updated to nrf91
 set(PSA_API_TEST_TARGET                 "nrf9160")
+set(TFM_ITS_ENC_NONCE_LENGTH            "12"       CACHE STRING    "The size of the nonce used in ITS encryption in bytes")
+set(TFM_ITS_AUTH_TAG_LENGTH             "16"       CACHE STRING    "The size of the tag used in ITS encryption in bytes")

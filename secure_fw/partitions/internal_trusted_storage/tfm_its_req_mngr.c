@@ -17,6 +17,7 @@
 #include "psa/framework_feature.h"
 #include "psa/service.h"
 #include "psa_manifest/tfm_internal_trusted_storage.h"
+#include "psa_manifest/pid.h"
 #include "tfm_its_defs.h"
 
 #if PSA_FRAMEWORK_HAS_MM_IOVEC == 1
@@ -48,6 +49,7 @@ static psa_status_t tfm_its_set_req(const psa_msg_t *msg)
         return PSA_ERROR_PROGRAMMER_ERROR;
     }
     data_length = msg->in_size[1];
+
 #if PSA_FRAMEWORK_HAS_MM_IOVEC == 1
     if (data_length) {
         p_data = (uint8_t *)psa_map_invec(msg->handle, 1);
@@ -85,6 +87,7 @@ static psa_status_t tfm_its_get_req(const psa_msg_t *msg)
         return PSA_ERROR_PROGRAMMER_ERROR;
     }
     data_size = msg->out_size[0];
+
 #if PSA_FRAMEWORK_HAS_MM_IOVEC == 1
     if (data_size) {
         p_data = (uint8_t *)psa_map_outvec(msg->handle, 0);
