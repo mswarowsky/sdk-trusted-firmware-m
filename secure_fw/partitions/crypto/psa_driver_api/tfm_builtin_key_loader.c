@@ -238,7 +238,7 @@ static psa_status_t derive_subkey_into_buffer(
         goto wrap_up;
     }
     status = psa_key_derivation_input_bytes(
-                    &deriv_ops, PSA_KEY_DERIVATION_INPUT_INFO, (uint8_t *)&owner, sizeof(owner));
+                    &deriv_ops, PSA_KEY_DERIVATION_INPUT_INFO, (uint8_t *)&user, sizeof(user));
     if (status != PSA_SUCCESS) {
         goto wrap_up;
     }
