@@ -53,7 +53,7 @@ static uint8_t __ALIGNED(4) asset_data[ITS_UTILS_ALIGN(ITS_BUF_SIZE,
 static uint8_t enc_asset_data[ITS_UTILS_ALIGN(ITS_BUF_SIZE,
                                               ITS_FLASH_MAX_ALIGNMENT)];
 
-#endif
+
 static psa_status_t buffer_size_check(int32_t client_id, size_t buffer_size) {
 /* The buffer check is only need if we don't use the input buffer directly */
 #if PSA_FRAMEWORK_HAS_MM_IOVEC != 1
@@ -72,6 +72,7 @@ static psa_status_t buffer_size_check(int32_t client_id, size_t buffer_size) {
 #endif /* PSA_FRAMEWORK_HAS_MM_IOVEC != 1 */
     return PSA_SUCCESS;
 }
+#endif
 
 static its_flash_fs_ctx_t fs_ctx_its;
 static struct its_flash_fs_config_t fs_cfg_its = {
