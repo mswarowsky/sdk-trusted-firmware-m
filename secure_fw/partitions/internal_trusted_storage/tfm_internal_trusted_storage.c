@@ -381,8 +381,8 @@ psa_status_t tfm_its_set(int32_t client_id,
 #else
         {
 #endif /* TFM_PARTITION_PROTECTED_STORAGE */
-            /* In tfm_its_set_req it got checked that the file will fit int asset_data 
-             * therefore this loop will one run once 
+            /* In tfm_its_set_req it got checked that the file will fit int asset_data
+             * therefore this loop will one run once
              */
             status = tfm_its_crypt_file(&g_file_info,
                                         g_fid,
@@ -431,7 +431,7 @@ static psa_status_t tfm_get_encrypted_from_fs(int32_t client_id,
 #else
     {
 #endif /* TFM_PARTITION_PROTECTED_STORAGE */
-        status = its_flash_fs_file_read(get_fs_ctx(client_id), 
+        status = its_flash_fs_file_read(get_fs_ctx(client_id),
                                         fid, g_file_info.size_current,
                                         0, asset_data);
         if (status != PSA_SUCCESS) {
@@ -452,13 +452,13 @@ static psa_status_t tfm_get_encrypted_from_fs(int32_t client_id,
     }
 #ifdef TFM_PARTITION_PROTECTED_STORAGE
     else {
-         status = its_flash_fs_file_read(get_fs_ctx(client_id), 
+         status = its_flash_fs_file_read(get_fs_ctx(client_id),
                                         fid, g_file_info.size_current,
                                         0, enc_asset_data);
         if (status != PSA_SUCCESS) {
             return status;
         }
-    } 
+    }
 #endif /* TFM_PARTITION_PROTECTED_STORAGE */
 
     return PSA_SUCCESS;
@@ -493,7 +493,7 @@ psa_status_t tfm_its_get(int32_t client_id,
     }
 
 #ifdef TFM_ITS_ENCRYPTED
-    status = buffer_size_check(client_id, data_length);
+    status = buffer_size_check(client_id, p_data_length);
     if(status != PSA_SUCCESS){
         return status;
     }
@@ -518,7 +518,7 @@ psa_status_t tfm_its_get(int32_t client_id,
     /* Update the size of the output data */
     *p_data_length = data_size;
 #if PSA_FRAMEWORK_HAS_MM_IOVEC == 1
-#ifdef TFM_ITS_ENCRYPTED 
+#ifdef TFM_ITS_ENCRYPTED
     status = tfm_get_encrypted_from_fs(client_id, g_fid);
     if (status != PSA_SUCCESS) {
         *p_data_length = 0;
@@ -526,7 +526,7 @@ psa_status_t tfm_its_get(int32_t client_id,
     }
 
     memcpy(its_req_mngr_get_vec_base(), enc_asset_data + data_offset, data_size);
-#endif  
+#endif
     /* Read file data from the filesystem */
     status = its_flash_fs_file_read(get_fs_ctx(client_id), g_fid, data_size,
                                     data_offset, its_req_mngr_get_vec_base());
@@ -541,14 +541,14 @@ psa_status_t tfm_its_get(int32_t client_id,
      */
     do {
 
-#ifdef TFM_ITS_ENCRYPTED 
+#ifdef TFM_ITS_ENCRYPTED
         status = tfm_get_encrypted_from_fs(client_id, g_fid);
         if (status != PSA_SUCCESS) {
             *p_data_length = 0;
             return status;
         }
         buffer_pnt = enc_asset_data + data_offset;
-# else 
+# else
         /* Read as much of the data as will fit in the asset_data buffer */
         read_size = ITS_UTILS_MIN(data_size, sizeof(asset_data));
 
@@ -560,7 +560,7 @@ psa_status_t tfm_its_get(int32_t client_id,
             return status;
         }
 #endif /* TFM_ITS_ENCRYPTED */
-        
+
         /* Write asset data to the caller */
         its_req_mngr_write(buffer_pnt, read_size);
 
